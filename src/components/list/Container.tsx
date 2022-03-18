@@ -1,47 +1,22 @@
-import React, { VFC, ReactNode, useRef, useEffect } from "react";
+import React, { VFC, ReactNode, useRef, useEffect, forwardRef } from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
 
 type Props = { children?: ReactNode; onEndReached?: () => void };
-const Container: VFC<Props> = ({
-  children = null,
-  onEndReached = () => {},
-}) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const endRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-    if (!endRef.current) return;
-
-    let callback: IntersectionObserverCallback = (entries) => {
-      if (entries[0].isIntersecting) onEndReached();
-    };
-
-    let options: IntersectionObserverInit = {
-      root: containerRef.current,
-      rootMargin: "0px",
-      threshold: 1.0,
-    };
-
-    let observer = new IntersectionObserver(callback, options);
-    observer.observe(endRef.current);
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+const Container = forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const { children = null, onEndReached = () => {} } = props;
 
   return (
     <SimpleBar
       style={{
         maxHeight: "100vh",
       }}
-      scrollableNodeProps={{ ref: containerRef }}
+      scrollableNodeProps={{ ref: ref }}
     >
-      <div className="flex flex-col gap-y-2 py-4 pl-2 pr-8">{children}</div>
-      <span ref={endRef} />
+      <div className="flex flex-col py-4 pl-2 pr-8 gap-y-2">{children}</div>
     </SimpleBar>
   );
-};
+});
 
+Container.displayName = "Container";
 export default Container;

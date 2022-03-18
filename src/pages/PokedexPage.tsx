@@ -3,7 +3,7 @@ import ListSection from "../components/list/ListSection";
 import { MouseEvent, useEffect } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useStore } from "../stores/Store";
-import { usePokemon } from "src/hooks/usePokemon";
+import { usePokemonData } from "src/hooks/usePokemonData";
 
 const threshold = 5;
 
@@ -12,7 +12,7 @@ const PokedexPage = (props: Props) => {
   const curIndex = useStore((state) => state.currentIndex);
   const updateIndex = useStore((state) => state.updateIndex);
   const matches = useMediaQuery("(min-width: 900px)");
-  const { pokemons, hasNextPage, fetchNextPage, lastIndex } = usePokemon();
+  const { pokemons, hasNextPage, fetchNextPage, lastIndex } = usePokemonData();
 
   async function handleOnNextClick(event: MouseEvent) {
     event.preventDefault();

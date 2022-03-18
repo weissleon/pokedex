@@ -37,7 +37,7 @@ const fetchPokemons = async ({
   return { next: res.data.next, results: results };
 };
 
-export function usePokemon() {
+export function usePokemonData() {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery(
     ["pokemons"],
     fetchPokemons,

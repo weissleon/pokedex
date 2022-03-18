@@ -1,4 +1,4 @@
-import React, { VFC, useMemo, useRef, useEffect } from "react";
+import React, { VFC, useMemo, useRef, useEffect, forwardRef } from "react";
 import { useColor } from "src/hooks/useColor";
 import { Pokemon } from "src/types/Pokemon";
 
@@ -8,23 +8,12 @@ type Props = {
   isSelected?: boolean;
 };
 
-const Item: VFC<Props> = ({
-  pokemon,
-  onClick = () => {},
-  isSelected = false,
-}) => {
-  const itemRef = useRef<HTMLDivElement>(null);
+const Item = forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const { pokemon, onClick = () => {}, isSelected = false } = props;
 
   function handleOnClick() {
     onClick(pokemon.index - 1);
   }
-
-  useEffect(() => {
-    if (!itemRef.current) return;
-    if (isSelected)
-      itemRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
-    return () => {};
-  }, [isSelected]);
 
   const nameText = useMemo(() => {
     return pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
@@ -37,7 +26,7 @@ const Item: VFC<Props> = ({
 
   return (
     <div
-      ref={itemRef}
+      ref={ref}
       onClick={handleOnClick}
       className="relative w-full min-h-[84px] cursor-pointer"
     >
@@ -72,6 +61,7 @@ const Item: VFC<Props> = ({
       </div>
     </div>
   );
-};
+});
 
+Item.displayName = "Item";
 export default Item;
