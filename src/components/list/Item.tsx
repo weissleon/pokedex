@@ -1,6 +1,15 @@
-import React, { VFC, useMemo, useRef, useEffect, forwardRef } from "react";
+import React, {
+  VFC,
+  useMemo,
+  useRef,
+  useEffect,
+  forwardRef,
+  Suspense,
+} from "react";
 import { useColor } from "src/hooks/useColor";
+import { useImageRes } from "src/hooks/useImageRes";
 import { Pokemon } from "src/types/Pokemon";
+import Sprite from "./Sprite";
 
 type Props = {
   pokemon: Pokemon;
@@ -38,26 +47,13 @@ const Item = forwardRef<HTMLDivElement, Props>((props, ref) => {
         } rounded-full`}
       />
 
-      <div className="relative px-4 py-4 w-full grid grid-cols-[auto auto 1fr auto] justify-items-center items-center">
-        <span className="col-start-1 col-end-2 font-bold text-teal-800/80">
-          {pokemon.index}
-        </span>
-        <img
-          className="col-start-2 col-end-3 "
-          src={pokemon.sprites.icon}
-          style={{
-            maxWidth: 60,
-            maxHeight: 60,
-            imageRendering: "pixelated",
-          }}
-          alt="icon"
-        />
-        <span className="col-start-3 col-end-4 font-bold text-teal-800/80">
-          {nameText}
-        </span>
-        <span
-          className={`col-start-4 col-end-5 w-4 h-4 ${color} rounded-full`}
-        ></span>
+      <div className="relative px-4 py-4 w-full grid grid-flow-col grid-cols-[auto auto 1fr auto] justify-items-center items-center">
+        <span className="font-bold text-teal-800/80">{pokemon.index}</span>
+        <Suspense fallback={<span>Loading...</span>}>
+          <Sprite url={pokemon.sprites.icon} />
+        </Suspense>
+        <span className="font-bold text-teal-800/80">{nameText}</span>
+        <span className={`w-4 h-4 ${color} rounded-full`}></span>
       </div>
     </div>
   );

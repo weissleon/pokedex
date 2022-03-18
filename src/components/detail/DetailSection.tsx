@@ -1,4 +1,4 @@
-import React, { VFC, useMemo, MouseEvent } from "react";
+import React, { VFC, useMemo, MouseEvent, Suspense } from "react";
 import { Pokemon } from "src/types/Pokemon";
 import Arrow from "./Arrow";
 import Background from "./Background";
@@ -6,6 +6,7 @@ import DetailContainer from "./DetailContainer";
 import Chip from "../common/Chip";
 import LayoutContainer from "./LayoutContainer";
 import Sprite from "./Sprite";
+import LoadingOverlay from "../common/LoadingOverlay";
 
 type Props = {
   pokemon: Pokemon;
@@ -25,32 +26,34 @@ const DetailSection: VFC<Props> = ({
   const weightText = `${pokemon.weight / 10}kg`;
 
   return (
-    <div className="relative w-full h-full flex justify-center">
+    <div className="relative flex justify-center w-full h-full">
       <Background />
       <LayoutContainer>
         <Arrow direction={"left"} onClick={onPrevClick} />
-        <div className="relative w-full flex flex-col bg-white rounded-md h-80 gap-y-8 items-center">
-          <Sprite url={pokemon.sprites.portrait} />
-          <div className="mt-24 font-bold text-4xl text-teal-800/80 p-4">
+        <div className="relative flex flex-col items-center w-full bg-white rounded-md h-80 gap-y-8">
+          <Suspense fallback={<LoadingOverlay />}>
+            <Sprite url={pokemon.sprites.portrait} />
+          </Suspense>
+          <div className="p-4 mt-24 text-4xl font-bold text-teal-800/80">
             {nameText}
           </div>
-          <div className="relative w-full grid grid-cols-3 justify-items-center items-center">
+          <div className="relative grid items-center w-full grid-cols-3 justify-items-center">
             <div className="flex flex-col items-center">
-              <div className="font-bold text-xl text-teal-800/80">
+              <div className="text-xl font-bold text-teal-800/80">
                 {weightText}
               </div>
-              <div className="text-black/20 font-bold">WEIGHT</div>
+              <div className="font-bold text-black/20">WEIGHT</div>
             </div>
-            <div className="border-l border-r gap-2 w-full h-full flex justify-center items-center">
+            <div className="flex items-center justify-center w-full h-full gap-2 border-l border-r">
               {pokemon.types.map((type, index) => (
                 <Chip key={`${pokemon}-type-${index}`}>{type}</Chip>
               ))}
             </div>
             <div className="flex flex-col items-center">
-              <div className="font-bold text-xl text-teal-800/80">
+              <div className="text-xl font-bold text-teal-800/80">
                 {heightText}
               </div>
-              <div className="text-black/20 font-bold">HEIGHT</div>
+              <div className="font-bold text-black/20">HEIGHT</div>
             </div>
           </div>
         </div>

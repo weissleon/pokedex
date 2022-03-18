@@ -1,4 +1,4 @@
-import { useRef, VFC, useEffect } from "react";
+import { useRef, VFC, useEffect, Suspense } from "react";
 import { Pokemon } from "../..//types/Pokemon";
 import Background from "./Background";
 import Container from "./Container";
