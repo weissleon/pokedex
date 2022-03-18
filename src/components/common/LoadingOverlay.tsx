@@ -1,13 +1,18 @@
 import React from "react";
 import PokeBall from "src/assets/PokeBall";
-
+import { motion } from "framer-motion";
 type Props = {};
 
 const LoadingOverlay = (props: Props) => {
   return (
-    <div className="absolute w-40 h-40 -translate-y-20">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="absolute -top-20 w-[7.5rem] h-[7.5rem]"
+    >
       <PokeBall color="red" />
-    </div>
+    </motion.div>
   );
 };
 

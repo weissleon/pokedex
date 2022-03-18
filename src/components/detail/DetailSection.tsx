@@ -7,6 +7,7 @@ import Chip from "../common/Chip";
 import LayoutContainer from "./LayoutContainer";
 import Sprite from "./Sprite";
 import LoadingOverlay from "../common/LoadingOverlay";
+import { AnimatePresence } from "framer-motion";
 
 type Props = {
   pokemon: Pokemon;
@@ -32,7 +33,7 @@ const DetailSection: VFC<Props> = ({
         <Arrow direction={"left"} onClick={onPrevClick} />
         <div className="relative flex flex-col items-center w-full bg-white rounded-md h-80 gap-y-8">
           <Suspense fallback={<LoadingOverlay />}>
-            <Sprite url={pokemon.sprites.portrait} />
+            <Sprite key={pokemon.index} url={pokemon.sprites.portrait} />
           </Suspense>
           <div className="p-4 mt-24 text-4xl font-bold text-teal-800/80">
             {nameText}

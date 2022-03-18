@@ -4,6 +4,7 @@ import { MouseEvent, useEffect } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useStore } from "../stores/Store";
 import { usePokemonData } from "src/hooks/usePokemonData";
+import LoadingOverlay from "src/components/common/LoadingOverlay";
 
 const threshold = 5;
 

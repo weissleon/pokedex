@@ -14,7 +14,7 @@ const Arrow: VFC<Props> = ({ direction = "left", onClick = () => {} }) => {
 
   return (
     <Element
-      className="text-gray-800/50 cursor-pointer"
+      className="cursor-pointer text-gray-800/50"
       onClick={handleOnClick}
       size={60}
     />
