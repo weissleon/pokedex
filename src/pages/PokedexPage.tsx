@@ -40,7 +40,7 @@ const PokedexPage = (props: Props) => {
 
   return (
     <div
-      className={`absolute inset-0 grid grid-flow-row ${
+      className={`absolute inset-0 grid grid-flow-row bg-gradient-to-tl from-lime-200 to-teal-200 ${
         matches ? "grid-cols-tablet" : "grid-cols-mobile"
       }`}
     >

@@ -33,14 +33,12 @@ const DetailSection: VFC<Props> = ({
           <Suspense fallback={<LoadingOverlay />}>
             <Sprite key={pokemon.index} url={pokemon.sprites.portrait} />
           </Suspense>
-          <div className="p-4 mt-24 text-4xl font-bold text-teal-800/80">
+          <div className="p-4 mt-24 text-4xl font-bold text-primary">
             {nameText}
           </div>
           <div className="relative grid items-center w-full grid-cols-3 justify-items-center">
             <div className="flex flex-col items-center">
-              <div className="text-xl font-bold text-teal-800/80">
-                {weightText}
-              </div>
+              <div className="text-xl font-bold text-primary">{weightText}</div>
               <div className="font-bold text-black/20">WEIGHT</div>
             </div>
             <div className="flex items-center justify-center w-full h-full gap-2 border-l border-r">
@@ -49,9 +47,7 @@ const DetailSection: VFC<Props> = ({
               ))}
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-xl font-bold text-teal-800/80">
-                {heightText}
-              </div>
+              <div className="text-xl font-bold text-primary">{heightText}</div>
               <div className="font-bold text-black/20">HEIGHT</div>
             </div>
           </div>

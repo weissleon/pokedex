@@ -6,6 +6,9 @@ module.exports = {
         tablet: "400px minmax(0, 1fr)",
         mobile: "minmax(0, 1fr)",
       },
+      colors: {
+        primary: "#115e59cc",
+      },
     },
   },
   plugins: [],

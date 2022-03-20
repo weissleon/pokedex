@@ -89,7 +89,7 @@ const ListSection: VFC<Props> = ({
   ));
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full ">
       <Background />
       <Container ref={containerRef} onEndReached={onEndReached}>
         {itemList}

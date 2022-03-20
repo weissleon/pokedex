@@ -43,7 +43,7 @@ const Item = forwardRef<HTMLDivElement, Props>((props, ref) => {
         className={`absolute inset-0 ${
           isSelected
             ? "bg-lime-400"
-            : "bg-gradient-to-r from-white to-slate-100"
+            : "bg-gradient-to-r from-white/50 to-slate-100/50"
         } rounded-full`}
       />
 
