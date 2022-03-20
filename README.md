@@ -9,7 +9,7 @@
   - 우회적으로 구현 가능하니 일단 문제는 없다.
 - react-query의 infiniteQuery가 어떻게 캐싱을 갱신하는지 보니, page 단위로 refetching하는 거였다. (똑똑하군)
   - 물론 포켓몬 정보는 실시간 업데이트될 이유가 없어 `staleTime`을 `Infinity`로 놓았다.
-
+- Promise.all을 통해 Sprite를 동시에 fetch 한다
 ## Library Used
 
 ### React
