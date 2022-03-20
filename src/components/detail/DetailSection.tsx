@@ -2,12 +2,10 @@ import React, { VFC, useMemo, MouseEvent, Suspense } from "react";
 import { Pokemon } from "src/types/Pokemon";
 import Arrow from "./Arrow";
 import Background from "./Background";
-import DetailContainer from "./DetailContainer";
 import Chip from "../common/Chip";
 import LayoutContainer from "./LayoutContainer";
 import Sprite from "./Sprite";
 import LoadingOverlay from "../common/LoadingOverlay";
-import { AnimatePresence } from "framer-motion";
 
 type Props = {
   pokemon: Pokemon;

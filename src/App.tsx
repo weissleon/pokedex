@@ -35,8 +35,10 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen flex flex-col justify-center items-center bg-blue-300">
-        <PokedexPage />
+      <div className="relative flex flex-col items-center justify-center min-h-screen bg-blue-300">
+        <Suspense fallback={<LoadingOverlay />}>
+          <PokedexPage />
+        </Suspense>
         {/* <ErrorBoundary fallback={<ErrorDialog />}>
           <Suspense fallback={<LoadingOverlay />}>
             <AnimatePresence initial={true}>

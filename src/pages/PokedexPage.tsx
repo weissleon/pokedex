@@ -13,18 +13,19 @@ const PokedexPage = (props: Props) => {
   const curIndex = useStore((state) => state.currentIndex);
   const updateIndex = useStore((state) => state.updateIndex);
   const matches = useMediaQuery("(min-width: 900px)");
-  const { pokemons, hasNextPage, fetchNextPage, lastIndex } = usePokemonData();
+
+  const { pokemons, hasNextPage, fetchNextPage, lastIndex, isFetching } =
+    usePokemonData();
 
   async function handleOnNextClick(event: MouseEvent) {
-    event.preventDefault();
-    if (curIndex === lastIndex) return;
+    if (curIndex === lastIndex || isFetching)
+      return console.log("Currently Fetching");
     if (pokemons.length - curIndex - 1 < threshold && hasNextPage)
       await fetchNextPage();
     updateIndex(curIndex + 1);
   }
 
   function handleOnPrevClick(event: MouseEvent) {
-    event.preventDefault();
     if (curIndex - 1 < 0) return;
     updateIndex(curIndex - 1);
   }
