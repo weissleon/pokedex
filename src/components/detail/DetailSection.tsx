@@ -25,11 +25,11 @@ const DetailSection: VFC<Props> = ({
   const weightText = `${pokemon.weight / 10}kg`;
 
   return (
-    <div className="relative flex justify-center w-full h-full">
+    <div className="relative flex justify-center w-full h-full overflow-hidden">
       <Background />
       <LayoutContainer>
         <Arrow direction={"left"} onClick={onPrevClick} />
-        <div className="relative flex flex-col items-center w-full bg-white rounded-md h-80 gap-y-8">
+        <div className="relative flex flex-col items-center w-full bg-white/90 rounded-md h-80 gap-y-8 px-4">
           <Suspense fallback={<LoadingOverlay />}>
             <Sprite key={pokemon.index} url={pokemon.sprites.portrait} />
           </Suspense>
@@ -41,7 +41,7 @@ const DetailSection: VFC<Props> = ({
               <div className="text-xl font-bold text-primary">{weightText}</div>
               <div className="font-bold text-black/20">WEIGHT</div>
             </div>
-            <div className="flex items-center justify-center w-full h-full gap-2 border-l border-r">
+            <div className="flex items-center justify-center w-full h-full gap-2 px-4 border-l border-r">
               {pokemon.types.map((type, index) => (
                 <Chip key={`${pokemon}-type-${index}`}>{type}</Chip>
               ))}

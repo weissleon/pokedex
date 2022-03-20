@@ -12,7 +12,7 @@ type Props = {};
 const PokedexPage = (props: Props) => {
   const curIndex = useStore((state) => state.currentIndex);
   const updateIndex = useStore((state) => state.updateIndex);
-  const matches = useMediaQuery("(min-width: 900px)");
+  const matches = useMediaQuery("(min-width: 1240px)");
 
   const { pokemons, hasNextPage, fetchNextPage, lastIndex, isFetching } =
     usePokemonData();
@@ -41,7 +41,7 @@ const PokedexPage = (props: Props) => {
   return (
     <div
       className={`absolute inset-0 grid grid-flow-row bg-gradient-to-tl from-lime-200 to-teal-200 ${
-        matches ? "grid-cols-tablet" : "grid-cols-mobile"
+        matches ? "grid-cols-tablet" : "grid-cols-mobile "
       }`}
     >
       {matches && (
