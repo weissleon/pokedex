@@ -9,7 +9,7 @@ const LoadingOverlay = (props: Props) => {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="relative w-[7.5rem] h-[7.5rem]"
+      className="w-[7.5rem] h-[7.5rem]"
     >
       <PokeBall color="red" />
     </motion.div>

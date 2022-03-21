@@ -4,7 +4,6 @@ import "./App.css";
 import { QueryClient, QueryClientProvider, setLogger } from "react-query";
 import PokedexPage from "./pages/PokedexPage";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
-import PokeBall from "./assets/PokeBall";
 import { ErrorBoundary } from "react-error-boundary";
 
 const queryClient = new QueryClient({

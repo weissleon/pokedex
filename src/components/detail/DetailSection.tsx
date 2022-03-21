@@ -1,4 +1,4 @@
-import React, { VFC, useMemo, MouseEvent, Suspense, useCallback } from "react";
+import { VFC, useMemo, MouseEvent, Suspense } from "react";
 import { Pokemon } from "src/types/Pokemon";
 import Arrow from "./Arrow";
 import Background from "./Background";
@@ -54,7 +54,13 @@ const DetailSection: VFC<Props> = ({
 
           {/* Sprite */}
           <ErrorBoundary fallback={<div>Error occurred</div>}>
-            <Suspense fallback={<LoadingOverlay />}>
+            <Suspense
+              fallback={
+                <div className="absolute -top-20">
+                  <LoadingOverlay />
+                </div>
+              }
+            >
               <Sprite key={pokemon.index} url={pokemon.sprites.portrait} />
             </Suspense>
           </ErrorBoundary>
