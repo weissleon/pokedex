@@ -10,6 +10,7 @@ const Arrow: VFC<Props> = ({ direction = "left", onClick = () => {} }) => {
 
   function handleOnClick(event: MouseEvent) {
     onClick(event);
+    event.stopPropagation();
   }
 
   return (

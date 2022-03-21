@@ -25,10 +25,14 @@ const PokedexPage = (props: Props) => {
     usePokemonData();
 
   async function handleOnNextClick(event: MouseEvent) {
-    if (curIndex === lastIndex || isFetching)
-      if (pokemons.length - curIndex - 1 < threshold && hasNextPage)
-        await fetchNextPage();
-    updateIndex(curIndex + 1);
+    if (curIndex === lastIndex) return;
+    if (
+      pokemons.length - curIndex - 1 < threshold &&
+      hasNextPage &&
+      !isFetching
+    )
+      await fetchNextPage();
+    if (pokemons.length - 1 !== curIndex) updateIndex(curIndex + 1);
   }
 
   function handleOnPrevClick(event: MouseEvent) {
@@ -88,19 +92,6 @@ const PokedexPage = (props: Props) => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
 
-  const listComponent = useMemo(
-    () => (
-      <ListSection
-        isTablet={matches}
-        currentIndex={curIndex}
-        pokemons={pokemons}
-        onItemClick={handleOnItemClick}
-        onEndReached={handleOnEndReached}
-      />
-    ),
-    [curIndex, pokemons, handleOnEndReached, handleOnItemClick, matches]
-  );
-
   return (
     <div
       className={`absolute inset-0 grid grid-flow-row overflow-hidden bg-gradient-to-tl from-lime-200 to-teal-200 ${
@@ -113,7 +104,13 @@ const PokedexPage = (props: Props) => {
           !matches ? "absolute z-20 pr-10" : "relative col-start-1 col-end-2"
         }  flex items-start min-w-[300px] w-full max-w-[488px] h-full`}
       >
-        <div className="relative  w-full  h-full">{listComponent}</div>
+        <ListSection
+          isTablet={matches}
+          currentIndex={curIndex}
+          pokemons={pokemons}
+          onItemClick={handleOnItemClick}
+          onEndReached={handleOnEndReached}
+        />
 
         {!matches && <DrawerToggle onClick={handleOnToggleClick} />}
       </div>
