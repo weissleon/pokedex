@@ -2,6 +2,9 @@
 
 # Pokedex
 
+**Official Link:**
+[https://pokedex-weissleon.vercel.app](https://pokedex-weissleon.vercel.app)
+
 🐷🐗🐭 여러분이 좋아하는 포케몬의 정보를 간단하게 확인해보세요!
 
 어느 기기에서도 부드럽게 알려줄 거에요 🎉
