@@ -11,6 +11,7 @@ type Props = {
   onItemClick?: (index: number) => void;
   onEndReached?: () => void;
   currentIndex: number;
+  isTablet?: boolean;
 };
 
 const ListSection: VFC<Props> = ({
@@ -18,10 +19,22 @@ const ListSection: VFC<Props> = ({
   onItemClick = () => {},
   onEndReached = () => {},
   currentIndex,
+  isTablet = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const selectedItemRef = useRef<HTMLDivElement>(null);
   const endRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      console.log("Scrolling");
+    };
+    containerRef.current?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      containerRef.current?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -90,7 +103,7 @@ const ListSection: VFC<Props> = ({
 
   return (
     <div className="relative w-full h-full ">
-      <Background />
+      <Background isTablet={isTablet} />
       <Container ref={containerRef} onEndReached={onEndReached}>
         {itemList}
         <span ref={endRef} />

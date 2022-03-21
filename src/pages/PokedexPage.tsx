@@ -1,10 +1,12 @@
 import DetailSection from "../components/detail/DetailSection";
 import ListSection from "../components/list/ListSection";
-import { MouseEvent, useEffect } from "react";
+import { MouseEvent, useEffect, useMemo, useCallback, useRef } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useStore } from "../stores/Store";
 import { usePokemonData } from "src/hooks/usePokemonData";
-import LoadingOverlay from "src/components/common/LoadingOverlay";
+import DrawerToggle from "src/components/common/DrawerToggle";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import gsap from "gsap";
 
 const threshold = 5;
 
@@ -13,15 +15,19 @@ const PokedexPage = (props: Props) => {
   const curIndex = useStore((state) => state.currentIndex);
   const updateIndex = useStore((state) => state.updateIndex);
   const matches = useMediaQuery("(min-width: 1240px)");
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+
+  let isDrawerOpen = params.get("drawer") && params.get("drawer") === "true";
 
   const { pokemons, hasNextPage, fetchNextPage, lastIndex, isFetching } =
     usePokemonData();
 
   async function handleOnNextClick(event: MouseEvent) {
     if (curIndex === lastIndex || isFetching)
-      return console.log("Currently Fetching");
-    if (pokemons.length - curIndex - 1 < threshold && hasNextPage)
-      await fetchNextPage();
+      if (pokemons.length - curIndex - 1 < threshold && hasNextPage)
+        await fetchNextPage();
     updateIndex(curIndex + 1);
   }
 
@@ -30,42 +36,93 @@ const PokedexPage = (props: Props) => {
     updateIndex(curIndex - 1);
   }
 
-  function handleOnItemClick(index: number) {
-    updateIndex(index);
-  }
+  const handleOnItemClick = useCallback(
+    (index: number) => {
+      if (isDrawerOpen && !matches) {
+        const drawer = drawerRef.current!.firstElementChild;
+        if (!drawer) return;
+        gsap.to(drawerRef.current, { x: drawer.clientWidth * -1 });
+        navigate(-1);
+      }
+      updateIndex(index);
+    },
+    [updateIndex, navigate, isDrawerOpen, matches]
+  );
 
-  function handleOnEndReached() {
+  useEffect(() => {
+    if (!isDrawerOpen && !matches) {
+      const drawer = drawerRef.current!.firstElementChild;
+      if (!drawer) return;
+      gsap.to(drawerRef.current, { x: drawer.clientWidth * -1 });
+    }
+
+    if (isDrawerOpen && !matches) {
+      const drawer = drawerRef.current!.firstElementChild;
+      if (!drawer) return;
+      gsap.to(drawerRef.current, { x: 0 });
+    }
+
+    if (matches) {
+      const drawer = drawerRef.current!.firstElementChild;
+      if (!drawer) return;
+      gsap.to(drawerRef.current, { x: 0 });
+    }
+    return () => {};
+  }, [matches, navigate, isDrawerOpen]);
+
+  const handleOnToggleClick = useCallback(() => {
+    if (!drawerRef.current) return;
+    if (!isDrawerOpen) {
+      gsap.to(drawerRef.current, { x: 0 });
+      navigate(`?drawer=true`);
+    }
+    if (isDrawerOpen) {
+      const drawer = drawerRef.current.firstElementChild;
+      if (!drawer) return;
+      gsap.to(drawerRef.current, { x: drawer.clientWidth * -1 });
+      navigate(-1);
+    }
+  }, [isDrawerOpen, navigate]);
+
+  const handleOnEndReached = useCallback(() => {
     if (hasNextPage) fetchNextPage();
-  }
+  }, [hasNextPage, fetchNextPage]);
+
+  const listComponent = useMemo(
+    () => (
+      <ListSection
+        isTablet={matches}
+        currentIndex={curIndex}
+        pokemons={pokemons}
+        onItemClick={handleOnItemClick}
+        onEndReached={handleOnEndReached}
+      />
+    ),
+    [curIndex, pokemons, handleOnEndReached, handleOnItemClick, matches]
+  );
 
   return (
     <div
-      className={`absolute inset-0 grid grid-flow-row bg-gradient-to-tl from-lime-200 to-teal-200 ${
+      className={`absolute inset-0 grid grid-flow-row overflow-hidden bg-gradient-to-tl from-lime-200 to-teal-200 ${
         matches ? "grid-cols-tablet" : "grid-cols-mobile "
       }`}
     >
-      {matches && (
-        <ListSection
-          currentIndex={curIndex}
-          pokemons={pokemons}
-          onItemClick={handleOnItemClick}
-          onEndReached={handleOnEndReached}
-        />
-      )}
+      <div
+        ref={drawerRef}
+        className={`${
+          !matches ? "absolute z-20 pr-10" : "relative col-start-1 col-end-2"
+        }  flex items-start min-w-[300px] w-full max-w-[488px] h-full`}
+      >
+        <div className="relative  w-full  h-full">{listComponent}</div>
+
+        {!matches && <DrawerToggle onClick={handleOnToggleClick} />}
+      </div>
+
       <DetailSection
         pokemon={pokemons[curIndex]}
         onNextClick={handleOnNextClick}
         onPrevClick={handleOnPrevClick}
       />
-
-      {/* <button
-        onClick={() => {
-          if (hasNextPage) fetchNextPage();
-        }}
-      >
-        Next Page
-      </button>
-      <p>{hasNextPage ? "Yes" : "No"}</p> */}
     </div>
   );
 };

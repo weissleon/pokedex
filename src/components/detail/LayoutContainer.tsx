@@ -2,11 +2,16 @@ import React, { ReactNode, VFC } from "react";
 
 type Props = {
   children?: ReactNode;
+  isTablet?: boolean;
 };
 
-const LayoutContainer: VFC<Props> = ({ children = null }) => {
+const LayoutContainer: VFC<Props> = ({ children = null, isTablet = false }) => {
   return (
-    <div className="relative min-w-min max-w-7xl h-full grid grid-cols-[auto_1fr_auto] gap-x-8 content-center items-center">
+    <div
+      className={`relative min-w-min max-w-7xl h-full grid ${
+        isTablet ? "grid-cols-card-tablet" : "grid-cols-card-mobile"
+      } gap-x-8 content-center items-center`}
+    >
       {children}
     </div>
   );

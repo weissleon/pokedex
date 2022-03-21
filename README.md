@@ -36,16 +36,6 @@
 
 ## Remaining Task
 
-- Make UI responsive.
-  - Detail card has to shrink.
-  - Maybe properties stack on mobile?
-- Turn pokemon list into a drawer.
-  - toggle state has to be preserved.
-- Make a drawer toggle.
-  - Toggle also has to be responsive.
 - Clean up JSX structure.
 - Clean up tailwind classes.
 - Wrap Error boundary in case of network error.
-- Put glassmorphic background to the drawer.
-- let main background span across the entire app.
-- useTransition on fetching next page.
