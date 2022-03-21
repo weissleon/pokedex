@@ -8,6 +8,10 @@ import Sprite from "./Sprite";
 import LoadingOverlay from "../common/LoadingOverlay";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 import { ErrorBoundary } from "react-error-boundary";
+import DetailContainer from "./DetailContainer";
+import PropertyContainer from "./PropertyContainer";
+
+// TODO 태그 정리 중
 
 type Props = {
   pokemon: Pokemon;
@@ -20,14 +24,17 @@ const DetailSection: VFC<Props> = ({
   onNextClick = () => {},
   onPrevClick = () => {},
 }) => {
+  // Texts
   const nameText = useMemo(() => {
     return pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
   }, [pokemon]);
   const heightText = `${pokemon.height / 10}m`;
   const weightText = `${pokemon.weight / 10}kg`;
 
+  // Media Query
   const isTablet = useMediaQuery("(min-width: 860px)");
 
+  // Arrow components
   const [leftArrow, rightArrow] = useMemo(() => {
     return [
       <Arrow direction={"left"} onClick={onPrevClick} />,
@@ -39,12 +46,11 @@ const DetailSection: VFC<Props> = ({
     <div className="relative flex justify-center w-full h-full overflow-hidden pt-12">
       <Background />
       <LayoutContainer isTablet={isTablet}>
+        {/* Tablet Left Arrow */}
         {isTablet && leftArrow}
-        <div
-          className={`relative ${
-            isTablet ? "min-w-detail-tablet h-80" : "min-w-detail-mobile h-100"
-          } flex flex-col items-center w-full bg-white/90 rounded-md  gap-y-8 px-4`}
-        >
+
+        <DetailContainer isTablet={isTablet}>
+          {/* Arrows for mobile */}
           {!isTablet && (
             <div className="absolute flex gap-x-40 -bottom-20">
               {leftArrow}
@@ -64,14 +70,14 @@ const DetailSection: VFC<Props> = ({
               <Sprite key={pokemon.index} url={pokemon.sprites.portrait} />
             </Suspense>
           </ErrorBoundary>
+
+          {/* Name */}
           <div className="p-4 mt-24 text-4xl font-bold text-primary">
             {nameText}
           </div>
-          <div
-            className={`"relative grid items-center w-full ${
-              isTablet ? "grid-cols-3" : "grid-rows-3 gap-y-2"
-            } justify-items-center"`}
-          >
+
+          {/* Properties */}
+          <PropertyContainer isTablet={isTablet}>
             <div
               className={`flex flex-col items-center ${
                 isTablet ? "col-start-1 col-end-2" : "row-start-2 row-end-3"
@@ -95,8 +101,9 @@ const DetailSection: VFC<Props> = ({
               <div className="text-xl font-bold text-primary">{heightText}</div>
               <div className="font-bold text-black/20">HEIGHT</div>
             </div>
-          </div>
-        </div>
+          </PropertyContainer>
+        </DetailContainer>
+        {/* Tablet Right Arrow */}
         {isTablet && rightArrow}
       </LayoutContainer>
     </div>

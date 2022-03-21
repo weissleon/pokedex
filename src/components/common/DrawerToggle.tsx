@@ -13,6 +13,7 @@ const DrawerToggle: VFC<Props> = ({ onClick = () => {} }) => {
 
   return (
     <div
+      id="toggle"
       style={{
         writingMode: "vertical-lr",
         textOrientation: "sideways",

@@ -54,21 +54,33 @@ const PokedexPage = (props: Props) => {
   );
 
   useEffect(() => {
+    function collapseDrawer(ev: globalThis.MouseEvent) {
+      if (
+        !drawerRef.current?.contains(ev.target as HTMLElement) &&
+        isDrawerOpen
+      )
+        navigate(-1);
+    }
+
+    window.addEventListener("click", collapseDrawer);
+
+    return () => {
+      window.removeEventListener("click", collapseDrawer);
+    };
+  }, [isDrawerOpen, navigate]);
+
+  useEffect(() => {
+    const drawer = drawerRef.current!.firstElementChild;
+    if (!drawer) return;
     if (!isDrawerOpen && !matches) {
-      const drawer = drawerRef.current!.firstElementChild;
-      if (!drawer) return;
       gsap.to(drawerRef.current, { x: drawer.clientWidth * -1 });
     }
 
     if (isDrawerOpen && !matches) {
-      const drawer = drawerRef.current!.firstElementChild;
-      if (!drawer) return;
       gsap.to(drawerRef.current, { x: 0 });
     }
 
     if (matches) {
-      const drawer = drawerRef.current!.firstElementChild;
-      if (!drawer) return;
       gsap.to(drawerRef.current, { x: 0 });
     }
     return () => {};
@@ -100,6 +112,10 @@ const PokedexPage = (props: Props) => {
     >
       <div
         ref={drawerRef}
+        id="drawer"
+        style={{
+          transform: "translateX(-100%)",
+        }}
         className={`${
           !matches ? "absolute z-20 pr-10" : "relative col-start-1 col-end-2"
         }  flex items-start min-w-[300px] w-full max-w-[488px] h-full`}

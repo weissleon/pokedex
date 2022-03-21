@@ -9,6 +9,7 @@ const Arrow: VFC<Props> = ({ direction = "left", onClick = () => {} }) => {
   const Element = direction === "left" ? IoChevronBack : IoChevronForward;
 
   function handleOnClick(event: MouseEvent) {
+    event.preventDefault();
     onClick(event);
     event.stopPropagation();
   }
