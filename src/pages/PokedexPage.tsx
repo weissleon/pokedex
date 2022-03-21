@@ -1,6 +1,6 @@
 import DetailSection from "../components/detail/DetailSection";
 import ListSection from "../components/list/ListSection";
-import { MouseEvent, useEffect, useMemo, useCallback, useRef } from "react";
+import { MouseEvent, useEffect, useCallback, useRef } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useStore } from "../stores/Store";
 import { usePokemonData } from "src/hooks/usePokemonData";

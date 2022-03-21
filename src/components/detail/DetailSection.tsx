@@ -7,6 +7,7 @@ import LayoutContainer from "./LayoutContainer";
 import Sprite from "./Sprite";
 import LoadingOverlay from "../common/LoadingOverlay";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
+import { ErrorBoundary } from "react-error-boundary";
 
 type Props = {
   pokemon: Pokemon;
@@ -52,9 +53,11 @@ const DetailSection: VFC<Props> = ({
           )}
 
           {/* Sprite */}
-          <Suspense fallback={<LoadingOverlay />}>
-            <Sprite key={pokemon.index} url={pokemon.sprites.portrait} />
-          </Suspense>
+          <ErrorBoundary fallback={<div>Error occurred</div>}>
+            <Suspense fallback={<LoadingOverlay />}>
+              <Sprite key={pokemon.index} url={pokemon.sprites.portrait} />
+            </Suspense>
+          </ErrorBoundary>
           <div className="p-4 mt-24 text-4xl font-bold text-primary">
             {nameText}
           </div>
